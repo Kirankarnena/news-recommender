@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Latest News</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f5f6fa;
+            margin: 0;
+        }
+        h1 {
+            text-align: center;
+            color: #273c75;
+            margin-top: 30px;
+        }
+        .news-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 26px;
+            margin: 30px auto;
+            max-width: 1200px;
+        }
+        .news-card {
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+            overflow: hidden;
+            width: 340px;
+            transition: transform 0.15s;
+            display: flex;
+            flex-direction: column;
+        }
+        .news-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 8px 36px rgba(44, 62, 80, 0.13);
+        }
+        .news-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: #dfe6e9;
+        }
+        .news-content {
+            padding: 18px 16px 16px 16px;
+            display: flex;
+            flex-direction: column;
+            min-height: 220px;
+        }
+        .news-title {
+            font-size: 1.12em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #2d355e;
+            text-decoration: none;
+        }
+        .news-title:hover {
+            color: #0097e6;
+        }
+        .news-desc {
+            color: #444a56;
+            margin-bottom: 18px;
+            font-size: 1em;
+            flex: 1;
+        }
+        .news-meta {
+            color: #718093;
+            font-size: 0.98em;
+            margin-top: auto;
+        }
+        @media (max-width: 900px) {
+            .news-card { width: 95vw; max-width:400px;}
+        }
+    </style>
+</head>
+<body>
+<h1>Latest News</h1>
+<div class="news-container">
+    <div class="news-card" th:each="article : ${articles}">
+        <img class="news-img" th:src="${article.urlToImage}" th:if="${article.urlToImage != null}"
+             alt="news image" />
+        <div class="news-content">
+            <a th:href="${article.url}" class="news-title" th:text="${article.title}" target="_blank"></a>
+            <p class="news-desc" th:text="${article.description}" />
+            <div class="news-meta">
+                <span th:text="${article.source != null ? article.source.name : ''}"></span>
+                <span th:text="' • ' + ${article.publishedAt}" th:if="${article.publishedAt != null}"></span>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
